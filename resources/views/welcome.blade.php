@@ -19,7 +19,7 @@
             background: url("../img/gesit.jpg") no-repeat center center;
             color: #ffffff;
             font-family: 'Nunito', sans-serif;
-            font-weight: 200;
+            font-weight: 400;
             height: 100vh;
             margin: 0;
             background-size: cover;
@@ -135,7 +135,7 @@
 
         <div class="content">
             <div class="title m-b-md">
-                MERKETPLACE
+               <strong> MERKETPLACE </strong>
             </div>
         </div>
     </div>
