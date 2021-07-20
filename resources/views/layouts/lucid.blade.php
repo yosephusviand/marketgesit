@@ -19,6 +19,7 @@
     <link rel="stylesheet"
         href="{{ asset('lucid') }}/assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
     <link rel="stylesheet" href="{{ asset('lucid') }}/assets/vendor/toastr/toastr.min.css">
+    <link rel="stylesheet" href="{{ asset('lucid/assets/vendor/dropify/css/dropify.min.css') }}">
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{{ asset('lucid') }}/mini-sidebar/assets/css/main.css">
@@ -32,6 +33,7 @@
         href="{{ asset('lucid/') }}/assets/vendor/jquery-datatable/fixedeader/dataTables.fixedheader.bootstrap4.min.css">
 
     <link rel="stylesheet" href="{{ asset('lucid') }}//assets/vendor/sweetalert/sweetalert.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
         #topbar-notification {
@@ -313,8 +315,13 @@
     <script src="{{ asset('lucid') }}/assets/vendor/jquery-datatable/buttons/buttons.print.min.js"></script>
 
     <script src="{{ asset('lucid') }}/mini-sidebar/assets/js/pages/tables/jquery-datatable.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+        });
+
         function showNotif(text) {
 
             $('#text-notif').html(text);
@@ -353,11 +360,65 @@
                         id: id
                     },
                     success: function(data) {
-                        
+
                         $('[name="idkategori"]').val(data.id);
                         $('[name="nama"]').val(data.nama);
                     }
                 });
+            });
+
+            $(document).on('click', '.editsubkategori', function() {
+                var id = $(this).data('id');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: "{{ route('subkategori.edit') }}",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+
+                        $('[name="idedit"]').val(data.id);
+                        $('[name="nama"]').val(data.nama);
+                        $('[name="kategori"]').val(data.idkategori);
+                    }
+                });
+            });
+
+            $('#kategori').change(function() {
+                var id = $(this).val();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "{{ route('subkategori.fromkategori') }}",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        var html = '';
+                        var i;
+                        html = '<option value="" disabled selected hidden>Pilih </option>';
+                        for (i = 0; i < data.length; i++) {
+                            html += '<option value=' + data[i].id + '>' + data[i]
+                                .nama + '</option>';
+                        }
+                        $('#subkategori').html(html);
+                    }
+                });
+                return false;
             });
         });
     </script>

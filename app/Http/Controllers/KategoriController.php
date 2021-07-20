@@ -13,22 +13,27 @@ class KategoriController extends Controller
     {
         $data   =   Kategori::all();
         return view('admin.kategori', compact('data'));
-        
     }
 
     public function store(Request $request)
     {
-        $data       =   new Kategori;
-        $data->nama =   $request->nama;
-        $data->save();
+        if ($request->idkategori == '') {
+
+            $data       =   new Kategori;
+            $data->nama =   $request->nama;
+            $data->save();
+        } else {
+            $data       =   Kategori::find($request->idkategori);
+            $data->nama =   $request->nama;
+            $data->save();
+        }
 
         return back()->with('status', 1)->with('message', 'Berhasil Simpan');
     }
 
     public function edit(Request $request)
     {
-       return Kategori::find($request->id);
-       
+        return Kategori::find($request->id);
     }
 
     public function destroy($id)

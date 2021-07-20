@@ -1,24 +1,31 @@
 <div id="left-sidebar" class="sidebar mini-sidebar">
     <div class="sidebar-scroll">
         <div class="user-account">
-            <img src="{{ asset('lucid') }}/assets/images/plane.png" class="rounded-circle user-photo" alt="User Profile Picture">
-            <div class="dropdown">
-                <span>Welcome,</span>
-                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>{{ Auth::user()->name }}</strong></a>
-                <ul class="dropdown-menu dropdown-menu-right account">
-                    <li><a href="doctor-profile.html"><i class="icon-user"></i>My Profile</a></li>
-                    <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
-                    <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="{{ route('logout') }}" class="icon-menu"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon-power"></i>Logout</a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </li>
-                </ul>
-            </div>
+            <img src="{{ asset('lucid') }}/assets/images/plane.png" class="rounded-circle user-photo"
+                alt="User Profile Picture">
+            @guest
+
+            @else
+                <div class="dropdown">
+                    <span>Welcome,</span>
+                    <a href="javascript:void(0);" class="dropdown-toggle user-name"
+                        data-toggle="dropdown"><strong>{{ Auth::user()->name }}</strong></a>
+                    <ul class="dropdown-menu dropdown-menu-right account">
+                        <li><a href="doctor-profile.html"><i class="icon-user"></i>My Profile</a></li>
+                        <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
+                        <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{ route('logout') }}" class="icon-menu"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                    class="icon-power"></i>Logout</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @endguest
             <hr>
             <ul class="row list-unstyled">
                 <li class="col-4">
@@ -38,9 +45,12 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#menu">Menu</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sub_menu"><i class="icon-grid"></i></a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Chat"><i class="icon-book-open"></i></a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sub_menu"><i class="icon-grid"></i></a>
+            </li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Chat"><i class="icon-book-open"></i></a>
+            </li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a>
+            </li>
         </ul>
 
         <!-- Tab panes -->
@@ -48,12 +58,24 @@
             <div class="tab-pane active" id="menu">
                 <nav class="sidebar-nav">
                     <ul class="main-menu metismenu">
-                        <li class="{{ request()->is('home*') ? 'active' : '' }}"><a href="{{ route('home') }}"><i class="icon-home"></i><span>Dashboard</span></a></li>
-                        <li class="{{ request()->is('kategori*') ? 'active' : '' }}"><a href="{{ route('kategori') }}"><i class="icon-calendar"></i><span>Kategori</span></a></li>
-                        <li><a href="app-taskboard.html"><i class="icon-list"></i><span>Taskboard</span></a></li>
+                        <li class="{{ request()->is('home*') ? 'active' : '' }}"><a href="{{ route('home') }}"><i
+                                    class="icon-home"></i><span>Dashboard</span></a></li>
+                        <li class="{{ request()->is('*kategori*') ? 'active' : '' }}"><a href="javascript:void(0);"
+                                class="has-arrow"><i class="icon-user-follow"></i><span>Kategori</span> </a>
+                            <ul>
+                                <li class="{{ request()->is('kategori*') ? 'active' : '' }}">
+                                    <a href="{{ route('kategori') }}"><span>Kategori</span></a>
+                                </li>
+                                <li class="{{ request()->is('subkategori*') ? 'active' : '' }}"> <a href="{{ route('subkategori') }}">Sub Kategori</a></li>
+                            </ul>
+                        </li>
+                        <li class="{{ request()->is('barang*') ? 'active' : '' }}"><a
+                                href="{{ route('barang') }}"><i class="icon-list"></i><span>Stock Barang</span></a>
+                        </li>
                         <li><a href="app-inbox.html"><i class="icon-home"></i><span>Inbox App</span></a></li>
                         <li><a href="app-chat.html"><i class="icon-bubbles"></i><span>Chat App</span></a></li>
-                        <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user-follow"></i><span>Doctors</span> </a>
+                        <li><a href="javascript:void(0);" class="has-arrow"><i
+                                    class="icon-user-follow"></i><span>Doctors</span> </a>
                             <ul>
                                 <li><a href="doctors-all.html">All Doctors</a></li>
                                 <li><a href="doctor-add.html">Add Doctor</a></li>
@@ -61,7 +83,8 @@
                                 <li><a href="doctor-events.html">Doctor Schedule</a></li>
                             </ul>
                         </li>
-                        <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-user"></i><span>Patients</span> </a>
+                        <li><a href="javascript:void(0);" class="has-arrow"><i
+                                    class="icon-user"></i><span>Patients</span> </a>
                             <ul>
                                 <li><a href="patients-all.html">All Patients</a></li>
                                 <li><a href="patient-add.html">Add Patient</a></li>
@@ -69,14 +92,16 @@
                                 <li><a href="patient-invoice.html">Invoice</a></li>
                             </ul>
                         </li>
-                        <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-wallet"></i><span>Payments</span> </a>
+                        <li><a href="javascript:void(0);" class="has-arrow"><i
+                                    class="icon-wallet"></i><span>Payments</span> </a>
                             <ul>
                                 <li><a href="payments.html">Payments</a></li>
                                 <li><a href="payments-add.html">Add Payment</a></li>
                                 <li><a href="payments-invoice.html">Invoice</a></li>
                             </ul>
                         </li>
-                        <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-layers"></i><span>Departments</span> </a>
+                        <li><a href="javascript:void(0);" class="has-arrow"><i
+                                    class="icon-layers"></i><span>Departments</span> </a>
                             <ul>
                                 <li><a href="depa-add.html">Add</a></li>
                                 <li><a href="depa-all.html">All Departments</a></li>
@@ -90,9 +115,11 @@
                                 <li><a href="javascript:void(0);">Laboratory</a></li>
                             </ul>
                         </li>
-                        <li><a href="our-centres.html"><i class="icon-pointer"></i><span>WorldWide Centres</span></a></li>
+                        <li><a href="our-centres.html"><i class="icon-pointer"></i><span>WorldWide Centres</span></a>
+                        </li>
                         <li>
-                            <a href="#Authentication" class="has-arrow"><i class="icon-lock"></i><span>Authentication</span></a>
+                            <a href="#Authentication" class="has-arrow"><i
+                                    class="icon-lock"></i><span>Authentication</span></a>
                             <ul>
                                 <li><a href="page-login.html">Login</a></li>
                                 <li><a href="page-register.html">Register</a></li>
@@ -119,8 +146,10 @@
                             <ul>
                                 <li><a href="page-blank.html">Blank Page</a> </li>
                                 <li><a href="doctor-profile.html">Profile</a></li>
-                                <li><a href="page-gallery.html">Image Gallery <span class="badge badge-default float-right">v1</span></a> </li>
-                                <li><a href="page-gallery2.html">Image Gallery <span class="badge badge-warning float-right">v2</span></a> </li>
+                                <li><a href="page-gallery.html">Image Gallery <span
+                                            class="badge badge-default float-right">v1</span></a> </li>
+                                <li><a href="page-gallery2.html">Image Gallery <span
+                                            class="badge badge-warning float-right">v2</span></a> </li>
                                 <li><a href="page-timeline.html">Timeline</a></li>
                                 <li><a href="page-timeline-h.html">Horizontal Timeline</a></li>
                                 <li><a href="page-pricing.html">Pricing</a></li>
@@ -138,7 +167,8 @@
                 <nav class="sidebar-nav">
                     <ul class="main-menu metismenu">
                         <li>
-                            <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i> <span>UI Elements</span></a>
+                            <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i> <span>UI
+                                    Elements</span></a>
                             <ul>
                                 <li><a href="ui-typography.html">Typography</a></li>
                                 <li><a href="ui-tabs.html">Tabs</a></li>
@@ -174,13 +204,16 @@
                         <li>
                             <a href="#Tables" class="has-arrow"><i class="icon-tag"></i> <span>Tables</span></a>
                             <ul>
-                                <li><a href="table-basic.html">Tables Example<span class="badge badge-info float-right">New</span></a> </li>
+                                <li><a href="table-basic.html">Tables Example<span
+                                            class="badge badge-info float-right">New</span></a> </li>
                                 <li><a href="table-normal.html">Normal Tables</a> </li>
                                 <li><a href="table-jquery-datatable.html">Jquery Datatables</a> </li>
                                 <li><a href="table-editable.html">Editable Tables</a> </li>
                                 <li><a href="table-color.html">Tables Color</a> </li>
-                                <li><a href="table-filter.html">Table Filter <span class="badge badge-info float-right">New</span></a> </li>
-                                <li><a href="table-dragger.html">Table dragger <span class="badge badge-info float-right">New</span></a> </li>
+                                <li><a href="table-filter.html">Table Filter <span
+                                            class="badge badge-info float-right">New</span></a> </li>
+                                <li><a href="table-dragger.html">Table dragger <span
+                                            class="badge badge-info float-right">New</span></a> </li>
                             </ul>
                         </li>
                         <li>
@@ -211,7 +244,7 @@
                 <form>
                     <div class="input-group m-b-20">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" ><i class="icon-magnifier"></i></span>
+                            <span class="input-group-text"><i class="icon-magnifier"></i></span>
                         </div>
                         <input type="text" class="form-control" placeholder="Search...">
                     </div>

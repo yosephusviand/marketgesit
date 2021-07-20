@@ -9,4 +9,9 @@ class Kategori extends Model
     //
 
     protected $table = 'kategori';
+
+    public function tosubkategori()
+    {
+        return $this->hasMany(SubKategori::class, 'idkategori', 'id');
+    }
 }

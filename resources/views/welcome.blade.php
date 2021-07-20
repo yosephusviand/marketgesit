@@ -135,7 +135,7 @@
 
         <div class="content">
             <div class="title m-b-md">
-               <strong> MERKETPLACE </strong>
+               <strong> MARKETPLACE </strong>
             </div>
         </div>
     </div>
