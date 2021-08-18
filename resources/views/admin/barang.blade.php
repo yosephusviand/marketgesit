@@ -23,7 +23,7 @@
                             <h2>Input/Update Barang</h2>
                         </div>
                         <div class="body">
-                            <form action="{{ route('barang.store') }}" method="POST"  enctype="multipart/form-data">
+                            <form action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row clearfix">
                                     <div class="col">
@@ -48,7 +48,10 @@
                                                     <label for="">Sub Kategori</label>
                                                     <select name="subkategori" class="form-control select2"
                                                         id="subkategori">
-
+                                                        <option value="" disabled selected hidden>Pilih </option>
+                                                        @foreach ($subkategori as $val)
+                                                            <option value="{{ $val->id }}">{{ $val->nama }}</option>
+                                                        @endforeach
                                                     </select>
                                                     @error('subkategori') <div class="small text-danger">{{ message }}
                                                         </div>
@@ -83,7 +86,7 @@
                                         <label for="">Foto Utama</label>
                                         <div class="form-group shadow">
                                             <input type="file" name="fotoutama" class="dropify" data-max-file-size="2048K"
-                                                    data-allowed-file-extensions="jpg png jpeg" accept="image/*">
+                                                data-allowed-file-extensions="jpg png jpeg" accept="image/*">
                                             @if ($errors->has('fotoutama'))
                                                 <br>
                                                 <span class="text-danger">{{ $errors->first('fotoutama') }}</span>
@@ -167,6 +170,7 @@
                                             <th>Deskrisi</th>
                                             <th>QTY</th>
                                             <th>Stock</th>
+                                            <th>Harga</th>
                                             <th>Foto Utama</th>
                                             <th>Foto Detail</th>
                                             <th>Aksi</th>
@@ -176,26 +180,27 @@
                                         @foreach ($data as $i => $val)
                                             <tr>
                                                 <td>{{ ++$i }}</td>
-                                                <td>{{ $val->tokategori->nama }}</td>
+                                                <td>{{ $val->tokategori->nama ?? ''}}</td>
                                                 <td>{{ $val->tosubkategori->nama ?? '' }}</td>
                                                 <td>{{ $val->nama }}</td>
                                                 <td>{{ $val->deskripsi }}</td>
                                                 <td>{{ $val->qty }}</td>
                                                 <td>{{ $val->stock_qty }}</td>
+                                                <td>{{ number_format($val->harga, 0) }}</td>
                                                 <td>
                                                     <img src="{{ route('barang.displayImage', $val->id) }}" alt=""
-                                                    title="" width="100px">
+                                                        title="" width="100px">
                                                 </td>
                                                 <td>
                                                     @foreach ($val->tofotodetail as $detail)
-                                                    <img src="{{ route('barangdetail.displayImage', $detail->id) }}" alt=""
-                                                    title="" width="100px">
+                                                        <img src="{{ route('barangdetail.displayImage', $detail->id) }}"
+                                                            alt="" title="" width="100px">
                                                     @endforeach
                                                 </td>
                                                 <td>
-                                                    <button type="submit" class="btn btn-primary btn-sm editsubkategori"
+                                                    <button type="submit" class="btn btn-primary btn-sm editbarang"
                                                         data-id="{{ $val->id }}">Edit</button>
-                                                    <a href="{{ route('subkategori.destroy', $val->id) }}"
+                                                    <a href="{{ route('barang.destroy', $val->id) }}"
                                                         class="btn btn-danger btn-sm">Hapus</a>
                                                 </td>
                                             </tr>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 class KategoriController extends Controller
 {
@@ -17,15 +19,45 @@ class KategoriController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->idkategori == '') {
 
-            $data       =   new Kategori;
-            $data->nama =   $request->nama;
-            $data->save();
+        if ($request->hasFile('foto')) {
+            $file               =   $request->file('foto');
+            $id                 =   date('Ymd');
+            $filefile           =   $id . '' .  str_replace(" ", "_", $file->getClientOriginalName());
+            if ($request->idkategori == '') {
+
+                $data       =   new Kategori;
+                $data->nama =   $request->nama;
+                $data->foto =   $filefile;
+                $data->save();
+
+                if ($data) {
+                    $tujuan_upload = storage_path('kategori');
+                    $file->move($tujuan_upload, $filefile);
+                }
+            } else {
+                $data       =   Kategori::find($request->idkategori);
+                $data->nama =   $request->nama;
+                $data->foto =   $filefile;
+                $data->save();
+
+                if ($data) {
+                    $tujuan_upload = storage_path('kategori');
+                    $file->move($tujuan_upload, $filefile);
+                }
+            }
         } else {
-            $data       =   Kategori::find($request->idkategori);
-            $data->nama =   $request->nama;
-            $data->save();
+
+            if ($request->idkategori == '') {
+
+                $data       =   new Kategori;
+                $data->nama =   $request->nama;
+                $data->save();
+            } else {
+                $data       =   Kategori::find($request->idkategori);
+                $data->nama =   $request->nama;
+                $data->save();
+            }
         }
 
         return back()->with('status', 1)->with('message', 'Berhasil Simpan');
@@ -42,5 +74,22 @@ class KategoriController extends Controller
         $data->delete();
 
         return back()->with('status', 1)->with('message', 'Berhasil Hapus Data');
+    }
+
+    public function liatfoto($id)
+    {
+        $data   =   Kategori::find($id);
+
+        $path = storage_path('kategori/' . $data->foto);
+
+        $file = File::get($path);
+
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 }

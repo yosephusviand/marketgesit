@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="{{ asset('lucid/assets/vendor/dropify/css/dropify.min.css') }}">
 
     <!-- MAIN CSS -->
-    <link rel="stylesheet" href="{{ asset('lucid') }}/mini-sidebar/assets/css/main.css">
-    <link rel="stylesheet" href="{{ asset('lucid') }}/mini-sidebar/assets/css/color_skins.css">
+    <link rel="stylesheet" href="{{ asset('lucid') }}/light/assets/css/main.css">
+    <link rel="stylesheet" href="{{ asset('lucid') }}/light/assets/css/color_skins.css">
 
 
     <link rel="stylesheet" href="{{ asset('lucid/') }}/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css">
@@ -118,7 +118,7 @@
 
 </head>
 
-<body class="theme-cyan layout-fullwidth">
+<body class="theme-cyan">
 
     <!-- Page Loader -->
     <div class="page-loader-wrapper">
@@ -419,6 +419,34 @@
                     }
                 });
                 return false;
+            });
+
+            $(document).on('click', '.editbarang', function() {
+                var id = $(this).data('id');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: "{{ route('barang.edit') }}",
+                    method: "POST",
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+                        
+                        $('[name="idedit"]').val(data.id);
+                        $('[name="kategori"]').val(data.idkategori);
+                        $('[name="subkategori"]').val(data.idsubkategori);
+                        $('[name="nama"]').val(data.nama);
+                        $('[name="qty"]').val(data.qty);
+                        $('[name="harga"]').val(data.harga);
+                        $('[name="deskripsi"]').val(data.deskripsi);
+                    }
+                });
             });
         });
     </script>

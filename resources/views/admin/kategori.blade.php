@@ -23,7 +23,7 @@
                             <h2>Input/Update Kategori</h2>
                         </div>
                         <div class="body">
-                            <form action="{{ route('kategori.store') }}" method="POST">
+                            <form action="{{ route('kategori.store') }}" method="POST"  enctype="multipart/form-data">
                                 @csrf
                                 <div class="row clearfix">
                                     <div class="col">
@@ -31,6 +31,14 @@
                                         <div class="form-group">
                                             <label for="">Nama Kategori</label>
                                             <input type="text" class="form-control" name="nama" placeholder="Tuliskan" required>
+                                        </div>
+                                        <div class="form-group shadow">
+                                            <input type="file" name="foto" class="dropify" data-max-file-size="2048K"
+                                                data-allowed-file-extensions="jpg png jpeg" accept="image/*">
+                                            @if ($errors->has('foto'))
+                                                <br>
+                                                <span class="text-danger">{{ $errors->first('foto') }}</span>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
@@ -54,6 +62,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Kategori</th>
+                                            <th>Foto</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -62,6 +71,9 @@
                                             <tr>
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $val->nama }}</td>
+                                                <td>
+                                                    <img src="{{ route('kategori.displayImage', $val->id) }}" width="100px" alt="">
+                                                </td>
                                                 <td>
                                                     <button type="submit" class="btn btn-primary btn-sm editkategori"
                                                         data-id="{{ $val->id }}">Edit</button>

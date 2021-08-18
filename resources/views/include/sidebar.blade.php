@@ -72,7 +72,7 @@
                         <li class="{{ request()->is('barang*') ? 'active' : '' }}"><a
                                 href="{{ route('barang') }}"><i class="icon-list"></i><span>Stock Barang</span></a>
                         </li>
-                        <li><a href="app-inbox.html"><i class="icon-home"></i><span>Inbox App</span></a></li>
+                        <li><a href="{{ route('transaksi') }}"><i class="icon-wallet"></i><span>Transaksi</span></a></li>
                         <li><a href="app-chat.html"><i class="icon-bubbles"></i><span>Chat App</span></a></li>
                         <li><a href="javascript:void(0);" class="has-arrow"><i
                                     class="icon-user-follow"></i><span>Doctors</span> </a>
