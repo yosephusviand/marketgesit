@@ -24,6 +24,7 @@ class CreateStockbarangTable extends Migration
             $table->string('deskripsi')->nullable();
             $table->string('foto')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

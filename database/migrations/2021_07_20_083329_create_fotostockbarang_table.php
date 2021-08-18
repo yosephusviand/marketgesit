@@ -18,6 +18,7 @@ class CreateFotostockbarangTable extends Migration
             $table->integer('idbarang')->nullable();
             $table->string('foto');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubkategoriTable extends Migration
+class CreateKategoriTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSubkategoriTable extends Migration
      */
     public function up()
     {
-        Schema::create('subkategori', function (Blueprint $table) {
+        Schema::create('kategori', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->nullable();
-            $table->integer('idkategori')->nullable();
+            $table->string('foto')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +29,6 @@ class CreateSubkategoriTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subkategori');
+        Schema::dropIfExists('kategori');
     }
 }
